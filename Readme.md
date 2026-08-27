@@ -1,4 +1,6 @@
-# Caso Acredittia
+
+# Evidencias del Proyecto APT122
+## Caso Acredittia
 
 
 Acredittia
@@ -48,3 +50,56 @@ credenciales; JWT RS256 con refresh tokens; frontend React/Next.js; notificacion
 WhatsApp Business API. Plan de desarrollo de 3 meses: 6 sprints quincenales, 4 personas (BE1, BE2, FE, QA),
 priorización MoSCoW, GitHub Actions, pytest y Playwright.
 37
+
+
+## Estructura:
+
+<details>
+<summary>Ver estructura de carpetas</summary>
+
+```bash
+Evidencias APT122
+│
+├── Fase 1
+│   ├── Evidencias Individuales
+│   │   ├── Apellido_Nombre_1.1_APT122_AutoevaluacionCompetenciasFase1.docx
+│   │   ├── Apellido_Nombre_1.2_APT122_DiarioReflexionFase1.docx
+│   │   └── Apellido_Nombre_1.3_APT122_AutoevaluacionFase1.docx
+│   │
+│   └── Evidencias Grupales
+│       ├── Presentación Proyecto.pptx
+│       ├── 1.4_APT122_FormativaFase1.docx
+│       ├── 1.5_GuiaEstudiante_Fase 1_Definicion Proyecto APT (Español).docx
+│       ├── 1.5_GuiaEstudiante_Fase 1_Definicion Proyecto APT (Inglés).docx  #Optativo
+│       └── PLANILLA DE EVALUACIÓN FASE 1.xlsx  (Enviada por correo)
+│
+├── Fase 2
+│   ├── Evidencias Individuales
+│   │   └── Apellido_Nombre_2.1_APT122_DiarioReflexionFase2.docx
+│   │
+│   ├── Evidencias Grupales
+│   │   ├── 2.4_GuiaEstudiante_Fase 2_DesarrolloProyecto APT (Español).docx
+│   │   ├── 2.4_GuiaEstudiante_Fase 2_DesarrolloProyecto APT (Inglés).docx #Optativo
+│   │   ├── PLANILLA DE EVALUACION AVANCE FASE 2.xlsx
+│   │   ├── 2.6_GuiaEstudiante_Fase 2_Informe Final Proyecto APT (Español).docx
+│   │   ├── 2.6_GuiaEstudiante_Fase 2_Informe Final Proyecto APT (Inglés).docx  #Optativo
+│   │   └── PLANILLA DE EVALUACION FINAL FASE 2.xlsx
+│   │
+│   └── Evidencias Proyecto
+│       ├── Presentación Proyecto.pptx
+│       ├── Evidencias de documentación
+│       └── Evidencias de sistema
+│           ├── Aplicación
+│           └── Base de datos
+│
+└── Fase 3
+    ├── Evidencias Individuales
+    │   └── Apellido_Nombre_3.1_APT122_DiarioReflexionFase3.docx
+    │
+    └── Evidencias Grupales
+        ├── PLANILLA DE EVALUACIÓN FASE 3.xlsx
+        ├── Presentación Final del proyecto (Español).pptx
+        └── Presentación Final del proyecto (Inglés).pptx  #Optativo
+```
+
+</details>
