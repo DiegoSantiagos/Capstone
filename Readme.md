@@ -1,5 +1,13 @@
 
 # Evidencias del Proyecto APT122
+
+## Descripción del proyecto
+
+- Nombre del proyecto: Acredittia
+- Tipo de proyecto: Desarrollo
+- Metodología de desarrollo: Incremental
+- Integrantes del equipo: 3
+
 ## Caso Acredittia
 
 
