@@ -1,0 +1,146 @@
+erDiagram
+  documentos {
+    uuid id PK
+    uuid company_id FK
+    uuid template_id FK
+    uuid sujeto_id FK
+    uuid contrato_id FK
+    text titulo
+    boolean obligatorio
+    doc_estado estado
+    date vence
+    doc_estado_calc estado_calc
+    boolean es_emsipor
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  documento_archivos {
+    uuid id PK
+    uuid company_id FK
+    uuid documento_id FK
+    text filename
+    text blob_path
+    text content_type
+    bigint size_bytes
+    uuid uploaded_by
+    uuid ia_review_id
+    timestamptz created_at
+  }
+  ia_reviews {
+    uuid id PK
+    uuid company_id FK
+    uuid archivo_id
+    ia_context context
+    job_status status
+    ia_resultado resultado
+    numeric confianza
+    jsonb campos_extraidos
+    text error
+    timestamptz started_at
+    timestamptz finished_at
+    timestamptz created_at
+  }
+  ia_hallazgos {
+    uuid id PK
+    uuid review_id FK
+    hallazgo_tipo tipo
+    text codigo
+    text mensaje
+    text campo
+    text valor_detectado
+    text valor_esperado
+    timestamptz created_at
+  }
+  alertas {
+    uuid id PK
+    uuid company_id FK
+    alerta_severidad severidad
+    alerta_estado estado
+    alerta_origen origen
+    text titulo
+    text descripcion
+    text plataforma
+    uuid documento_id FK
+    uuid sujeto_id FK
+    uuid contrato_id FK
+    timestamptz leida_at
+    timestamptz resuelta_at
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  eventos_calendario {
+    uuid id PK
+    uuid company_id FK
+    text titulo
+    evento_categoria categoria
+    date fecha
+    text descripcion
+    uuid documento_id FK
+    boolean completado
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  reportes {
+    uuid id PK
+    uuid company_id FK
+    text nombre
+    reporte_tipo tipo
+    reporte_formato formato
+    job_status status
+    jsonb params
+    text blob_path
+    uuid generado_por FK
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  reportes_programados {
+    uuid id PK
+    uuid company_id FK
+    text nombre
+    reporte_tipo tipo
+    reporte_formato formato
+    jsonb params
+    text cron_expr
+    boolean activo
+    timestamptz ultimo_run_at
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  cumplimiento_snapshots {
+    bigint id PK
+    uuid company_id FK
+    uuid contrato_id FK
+    date fecha
+    smallint cumplimiento_pct
+    integer docs_ok
+    integer docs_total
+    integer personal_acreditados
+    integer personal_total
+    integer equipos_acreditados
+    integer equipos_total
+    integer alertas_criticas
+    timestamptz created_at
+  }
+  requisito_templates o|--o{ documentos : "template_id"
+  sujetos o|--o{ documentos : "sujeto_id"
+  contratos o|--o{ documentos : "contrato_id"
+  documentos ||--o{ documento_archivos : "documento_id"
+  ia_reviews ||--o{ ia_hallazgos : "review_id"
+  documentos o|--o{ alertas : "documento_id"
+  sujetos o|--o{ alertas : "sujeto_id"
+  contratos o|--o{ alertas : "contrato_id"
+  documentos o|--o{ eventos_calendario : "documento_id"
+  users o|--o{ reportes : "generado_por"
+  contratos o|--o{ cumplimiento_snapshots : "contrato_id"
+  contratos {
+    uuid id PK
+  }
+  requisito_templates {
+    uuid id PK
+  }
+  sujetos {
+    uuid id PK
+  }
+  users {
+    uuid id PK
+  }

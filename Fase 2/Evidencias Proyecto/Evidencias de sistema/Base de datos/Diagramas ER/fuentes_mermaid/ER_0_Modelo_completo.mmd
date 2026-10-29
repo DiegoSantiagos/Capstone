@@ -1,0 +1,223 @@
+erDiagram
+  companies {
+    UUID id PK
+  }
+  doc_ejemplos {
+    TEXT clave PK
+  }
+  faenas {
+    UUID id PK
+  }
+  planes {
+    UUID id PK
+  }
+  requisitos_terreno {
+    UUID id PK
+  }
+  actividad {
+    BIGINT id PK
+    UUID company_id FK
+  }
+  cargos {
+    UUID id PK
+    UUID company_id FK
+  }
+  contratos {
+    UUID id PK
+    UUID company_id FK
+    UUID faena_id FK
+  }
+  faena_plataformas {
+    UUID id PK
+    UUID faena_id FK
+  }
+  ia_reviews {
+    UUID id PK
+    UUID company_id FK
+  }
+  integraciones {
+    UUID id PK
+    UUID company_id FK
+  }
+  proveedores_catalogo {
+    UUID id PK
+    UUID faena_id FK
+  }
+  reportes_programados {
+    UUID id PK
+    UUID company_id FK
+  }
+  requisito_templates {
+    UUID id PK
+    TEXT ejemplo_clave FK
+    UUID faena_id FK
+  }
+  suscripciones {
+    UUID id PK
+    UUID company_id FK
+    UUID plan_id FK
+  }
+  cargo_requisitos {
+    UUID id PK
+    UUID cargo_id FK
+    UUID requisito_template_id FK
+  }
+  company_faena_plataformas {
+    UUID id PK
+    UUID company_id FK
+    UUID faena_plataforma_id FK
+  }
+  contrato_plantilla_overrides {
+    UUID id PK
+    UUID company_id FK
+    UUID contrato_id FK
+  }
+  contrato_plataformas {
+    UUID id PK
+    UUID company_id FK
+    UUID contrato_id FK
+    UUID faena_plataforma_id FK
+  }
+  cumplimiento_snapshots {
+    BIGINT id PK
+    UUID company_id FK
+    UUID contrato_id FK
+  }
+  facturas {
+    UUID id PK
+    UUID suscripcion_id FK
+    UUID company_id FK
+  }
+  ia_hallazgos {
+    UUID id PK
+    UUID review_id FK
+  }
+  sujetos {
+    UUID id PK
+    UUID company_id FK
+    UUID contrato_id FK
+    UUID cargo_id FK
+  }
+  sync_logs {
+    BIGINT id PK
+    UUID integracion_id FK
+    UUID company_id FK
+  }
+  users {
+    UUID id PK
+    UUID company_id FK
+    UUID contrato_id FK
+  }
+  contrato_requisitos {
+    UUID id PK
+    UUID company_id FK
+    UUID contrato_id FK
+    UUID vinculo_ref FK
+    UUID cargo_id FK
+    UUID requisito_template_id FK
+    TEXT ejemplo_clave FK
+  }
+  documentos {
+    UUID id PK
+    UUID company_id FK
+    UUID template_id FK
+    UUID sujeto_id FK
+    UUID contrato_id FK
+  }
+  licencias_internas {
+    UUID id PK
+    UUID company_id FK
+    UUID sujeto_id FK
+  }
+  notificacion_preferencias {
+    UUID id PK
+    UUID company_id FK
+    UUID user_id FK
+  }
+  password_reset_tokens {
+    UUID id PK
+    UUID user_id FK
+  }
+  plataforma_credenciales {
+    UUID id PK
+    UUID company_id FK
+    UUID contrato_plataforma_id FK
+    UUID created_by FK
+  }
+  refresh_tokens {
+    UUID id PK
+    UUID user_id FK
+  }
+  reportes {
+    UUID id PK
+    UUID company_id FK
+    UUID generado_por FK
+  }
+  alertas {
+    UUID id PK
+    UUID company_id FK
+    UUID documento_id FK
+    UUID sujeto_id FK
+    UUID contrato_id FK
+  }
+  documento_archivos {
+    UUID id PK
+    UUID company_id FK
+    UUID documento_id FK
+  }
+  eventos_calendario {
+    UUID id PK
+    UUID company_id FK
+    UUID documento_id FK
+  }
+  plataforma_credencial_versiones {
+    BIGINT id PK
+    UUID company_id FK
+    UUID credencial_id FK
+    UUID rotada_por FK
+  }
+  companies o|--o{ cargos : "company_id"
+  companies ||--o{ contratos : "company_id"
+  faenas ||--o{ contratos : "faena_id"
+  faenas ||--o{ faena_plataformas : "faena_id"
+  faenas o|--o{ proveedores_catalogo : "faena_id"
+  doc_ejemplos o|--o{ requisito_templates : "ejemplo_clave"
+  faenas o|--o{ requisito_templates : "faena_id"
+  planes ||--o{ suscripciones : "plan_id"
+  cargos ||--o{ cargo_requisitos : "cargo_id"
+  requisito_templates ||--o{ cargo_requisitos : "requisito_template_id"
+  faena_plataformas ||--o{ company_faena_plataformas : "faena_plataforma_id"
+  contratos ||--o{ contrato_plantilla_overrides : "contrato_id"
+  contratos ||--o{ contrato_plataformas : "contrato_id"
+  faena_plataformas o|--o{ contrato_plataformas : "faena_plataforma_id"
+  contratos o|--o{ cumplimiento_snapshots : "contrato_id"
+  suscripciones ||--o{ facturas : "suscripcion_id"
+  ia_reviews ||--o{ ia_hallazgos : "review_id"
+  companies ||--o{ sujetos : "company_id"
+  contratos ||--o{ sujetos : "contrato_id"
+  cargos o|--o{ sujetos : "cargo_id"
+  integraciones ||--o{ sync_logs : "integracion_id"
+  companies o|--o{ users : "company_id"
+  contratos o|--o{ users : "contrato_id"
+  contratos ||--o{ contrato_requisitos : "contrato_id"
+  contrato_plataformas o|--o{ contrato_requisitos : "vinculo_ref"
+  cargos o|--o{ contrato_requisitos : "cargo_id"
+  requisito_templates o|--o{ contrato_requisitos : "requisito_template_id"
+  doc_ejemplos o|--o{ contrato_requisitos : "ejemplo_clave"
+  requisito_templates o|--o{ documentos : "template_id"
+  sujetos o|--o{ documentos : "sujeto_id"
+  contratos o|--o{ documentos : "contrato_id"
+  sujetos ||--o{ licencias_internas : "sujeto_id"
+  users o|--o{ notificacion_preferencias : "user_id"
+  users ||--o{ password_reset_tokens : "user_id"
+  contrato_plataformas ||--o{ plataforma_credenciales : "contrato_plataforma_id"
+  users o|--o{ plataforma_credenciales : "created_by"
+  users ||--o{ refresh_tokens : "user_id"
+  users o|--o{ reportes : "generado_por"
+  documentos o|--o{ alertas : "documento_id"
+  sujetos o|--o{ alertas : "sujeto_id"
+  contratos o|--o{ alertas : "contrato_id"
+  documentos ||--o{ documento_archivos : "documento_id"
+  documentos o|--o{ eventos_calendario : "documento_id"
+  plataforma_credenciales ||--o{ plataforma_credencial_versiones : "credencial_id"
+  users o|--o{ plataforma_credencial_versiones : "rotada_por"

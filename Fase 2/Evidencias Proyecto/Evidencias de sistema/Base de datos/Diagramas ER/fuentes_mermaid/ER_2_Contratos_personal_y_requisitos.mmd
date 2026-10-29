@@ -1,0 +1,171 @@
+erDiagram
+  faenas {
+    uuid id PK
+    text nombre
+    text mandante
+    text grupo
+    text region
+    text sector
+    boolean activa
+    text logo_url
+    text color
+    numeric lat
+    numeric lng
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  contratos {
+    uuid id PK
+    uuid company_id FK
+    uuid faena_id FK
+    text nombre
+    text codigo
+    date fecha_inicio
+    date fecha_termino
+    boolean renovacion_automatica
+    contrato_estado estado
+    uuid origen_ia_review_id
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  cargos {
+    uuid id PK
+    uuid company_id FK
+    text nombre
+    text nombre_normalizado
+    cargo_categoria categoria
+    boolean requiere_emsipor
+    boolean activo
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  cargo_requisitos {
+    uuid id PK
+    uuid cargo_id FK
+    uuid requisito_template_id FK
+    boolean obligatorio
+    timestamptz created_at
+  }
+  requisito_templates {
+    uuid id PK
+    req_ambito ambito
+    text titulo
+    text codigo
+    req_tipo tipo
+    boolean obligatorio
+    text ejemplo_clave FK
+    uuid faena_id FK
+    integer vigencia_meses
+    text plataforma
+    text aplica_a
+    boolean activo
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  doc_ejemplos {
+    text clave PK
+    text nombre
+    text referencia
+    jsonb campos_clave
+    jsonb notas
+    text tip
+    text pdf_url
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  contrato_requisitos {
+    uuid id PK
+    uuid company_id FK
+    uuid contrato_id FK
+    vinculo_tipo vinculo_tipo
+    uuid vinculo_ref FK
+    req_ambito ambito
+    text titulo
+    boolean obligatorio
+    uuid cargo_id FK
+    requisito_origen origen
+    uuid requisito_template_id FK
+    text ejemplo_clave FK
+    smallint vigencia_meses
+    boolean activo
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  contrato_plantilla_overrides {
+    uuid id PK
+    uuid company_id FK
+    uuid contrato_id FK
+    req_ambito ambito
+    uuid_array requisito_template_ids
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  sujetos {
+    uuid id PK
+    uuid company_id FK
+    uuid contrato_id FK
+    subject_type tipo
+    subject_status estado
+    text nombre
+    text rut
+    text cargo
+    uuid cargo_id FK
+    boolean es_conductor
+    text patente
+    text tipo_equipo
+    text marca
+    text modelo
+    integer anio
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  licencias_internas {
+    uuid id PK
+    uuid company_id FK
+    uuid sujeto_id FK
+    text numero
+    lim_estado estado
+    date vence
+    emsipor_estado emsipor_estado
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  requisitos_terreno {
+    uuid id PK
+    text ambito
+    text titulo
+    text descripcion
+    terreno_nivel nivel
+    text icono
+    text referencia
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  proveedores_catalogo {
+    uuid id PK
+    text categoria
+    text nombre
+    text localidad
+    text certificacion
+    uuid faena_id FK
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  faenas ||--o{ contratos : "faena_id"
+  cargos ||--o{ cargo_requisitos : "cargo_id"
+  requisito_templates ||--o{ cargo_requisitos : "requisito_template_id"
+  doc_ejemplos o|--o{ requisito_templates : "ejemplo_clave"
+  faenas o|--o{ requisito_templates : "faena_id"
+  contratos ||--o{ contrato_requisitos : "contrato_id"
+  contrato_plataformas o|--o{ contrato_requisitos : "vinculo_ref"
+  cargos o|--o{ contrato_requisitos : "cargo_id"
+  requisito_templates o|--o{ contrato_requisitos : "requisito_template_id"
+  doc_ejemplos o|--o{ contrato_requisitos : "ejemplo_clave"
+  contratos ||--o{ contrato_plantilla_overrides : "contrato_id"
+  contratos ||--o{ sujetos : "contrato_id"
+  cargos o|--o{ sujetos : "cargo_id"
+  sujetos ||--o{ licencias_internas : "sujeto_id"
+  faenas o|--o{ proveedores_catalogo : "faena_id"
+  contrato_plataformas {
+    uuid id PK
+  }

@@ -1,0 +1,119 @@
+erDiagram
+  companies {
+    uuid id PK
+    text nombre
+    text rut
+    text email
+    account_status status
+    uuid approved_by
+    timestamptz approved_at
+    text rejection_reason
+    boolean es_demo
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  users {
+    uuid id PK
+    text email
+    text password_hash
+    user_role role
+    uuid company_id FK
+    uuid contrato_id FK
+    text nombre
+    boolean activo
+    account_status status
+    timestamptz last_login_at
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  refresh_tokens {
+    uuid id PK
+    uuid user_id FK
+    text token_hash
+    timestamptz expires_at
+    timestamptz revoked_at
+    timestamptz created_at
+  }
+  password_reset_tokens {
+    uuid id PK
+    uuid user_id FK
+    text token_hash
+    timestamptz expires_at
+    timestamptz used_at
+    timestamptz created_at
+  }
+  notificacion_preferencias {
+    uuid id PK
+    uuid company_id FK
+    uuid user_id FK
+    text evento
+    boolean canal_email
+    boolean canal_whatsapp
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  actividad {
+    bigint id PK
+    uuid company_id FK
+    uuid user_id
+    actividad_tipo tipo
+    text modulo
+    text descripcion
+    text entidad_tipo
+    uuid entidad_id
+    text plataforma
+    jsonb metadata
+    timestamptz created_at
+  }
+  planes {
+    uuid id PK
+    text nombre
+    numeric precio
+    text moneda
+    text periodo
+    jsonb limites
+    boolean activo
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  suscripciones {
+    uuid id PK
+    uuid company_id FK
+    uuid plan_id FK
+    suscripcion_estado estado
+    date trial_hasta
+    date periodo_actual_desde
+    date periodo_actual_hasta
+    text medio_pago_ref
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  facturas {
+    uuid id PK
+    uuid suscripcion_id FK
+    uuid company_id FK
+    text folio
+    numeric monto
+    text moneda
+    factura_estado estado
+    text gateway_ref
+    timestamptz emitida_at
+    timestamptz pagada_at
+    text pdf_blob_path
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  companies o|--o{ users : "company_id"
+  contratos o|--o{ users : "contrato_id"
+  users ||--o{ refresh_tokens : "user_id"
+  users ||--o{ password_reset_tokens : "user_id"
+  companies ||--o{ notificacion_preferencias : "company_id"
+  users o|--o{ notificacion_preferencias : "user_id"
+  companies ||--o{ actividad : "company_id"
+  companies ||--o{ suscripciones : "company_id"
+  planes ||--o{ suscripciones : "plan_id"
+  suscripciones ||--o{ facturas : "suscripcion_id"
+  companies ||--o{ facturas : "company_id"
+  contratos {
+    uuid id PK
+  }

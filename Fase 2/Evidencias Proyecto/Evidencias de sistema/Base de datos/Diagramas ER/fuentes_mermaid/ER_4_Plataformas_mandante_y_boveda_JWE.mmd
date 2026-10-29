@@ -1,0 +1,110 @@
+erDiagram
+  faena_plataformas {
+    uuid id PK
+    uuid faena_id FK
+    text nombre
+    text descripcion
+    text url
+    text nota
+    smallint orden
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  company_faena_plataformas {
+    uuid id PK
+    uuid company_id FK
+    uuid faena_plataforma_id FK
+    plataforma_estado estado
+    text nota
+    timestamptz solicitado_at
+    timestamptz habilitado_at
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  contrato_plataformas {
+    uuid id PK
+    uuid company_id FK
+    uuid contrato_id FK
+    uuid faena_plataforma_id FK
+    text nombre
+    text descripcion
+    text url
+    text color
+    plataforma_estado estado
+    text nota
+    smallint orden
+    boolean es_custom
+    timestamptz solicitado_at
+    timestamptz habilitado_at
+    timestamptz ultima_sync_at
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  plataforma_credenciales {
+    uuid id PK
+    uuid company_id FK
+    uuid contrato_plataforma_id FK
+    text nombre
+    text usuario
+    text credencial_jwe
+    text kid
+    integer version
+    credencial_estado estado
+    timestamptz expira_at
+    timestamptz rotada_at
+    timestamptz last_used_at
+    uuid created_by FK
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  plataforma_credencial_versiones {
+    bigint id PK
+    uuid company_id FK
+    uuid credencial_id FK
+    integer version
+    text credencial_jwe
+    text kid
+    timestamptz vigente_desde
+    timestamptz vigente_hasta
+    uuid rotada_por FK
+    timestamptz created_at
+  }
+  integraciones {
+    uuid id PK
+    uuid company_id FK
+    integracion_tipo tipo
+    integracion_estado estado
+    text credenciales_ref
+    jsonb config
+    timestamptz ultima_sync_at
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  sync_logs {
+    bigint id PK
+    uuid integracion_id FK
+    uuid company_id FK
+    sync_status status
+    text mensaje
+    integer registros_procesados
+    timestamptz started_at
+    timestamptz finished_at
+  }
+  faenas ||--o{ faena_plataformas : "faena_id"
+  faena_plataformas ||--o{ company_faena_plataformas : "faena_plataforma_id"
+  contratos ||--o{ contrato_plataformas : "contrato_id"
+  faena_plataformas o|--o{ contrato_plataformas : "faena_plataforma_id"
+  contrato_plataformas ||--o{ plataforma_credenciales : "contrato_plataforma_id"
+  users o|--o{ plataforma_credenciales : "created_by"
+  plataforma_credenciales ||--o{ plataforma_credencial_versiones : "credencial_id"
+  users o|--o{ plataforma_credencial_versiones : "rotada_por"
+  integraciones ||--o{ sync_logs : "integracion_id"
+  contratos {
+    uuid id PK
+  }
+  faenas {
+    uuid id PK
+  }
+  users {
+    uuid id PK
+  }
